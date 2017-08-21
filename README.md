@@ -1,9 +1,9 @@
 ### Kodi Addon to Turn TV on and off using HDMI-CEC builtin functions
 
-###Installation
+### Installation 
 
-#### Method Zipping
-Zip the contents of script.cectvcontrol directory as script.cectvcontrol.zip and import it in Kodi
+#### Method Zip 
+Download the project as zip and rename it as `script.cectvcontrol.zip` and import it in Kodi
 
-#### Method copying
-Copy script.cectvcontrol directory to kodi's addons directory, example: ~/.kodi/addons/
+#### Method copying 
+Clone the project and copy it to kodi's addons directory, example: ~/.kodi/addons/
