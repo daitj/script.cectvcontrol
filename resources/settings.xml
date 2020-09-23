@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="30100">
+       <setting label="30101" type="lsep"/>
+       <setting label="30102" type="lsep"/>
+       <setting label="30103" type="lsep"/>
+       <setting id="forceIP" type="ipaddress" label="30104" default="" />
+       <setting id="timeout" type="number" label="30105" default="5" />
+       <setting id="retries" type="number" label="30106" default="1" />
+    </category>
+</settings>
