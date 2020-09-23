@@ -1,68 +1,30 @@
-from tv import Television, TelevisionRemoteCode
 import xbmcaddon
 import urlparse
 import sys
 import xbmc
+import json
+from enum import Enum
 
 addonID = 'script.cectvcontrol'
 addon = xbmcaddon.Addon(id=addonID)
 
+class CecCommands(Enum):
+    AVR_ON = "1f:82:11:00"
+    AVR_OFF = "15:36"
+    TV_ON ="10:04"
+    TV_OFF = "10:36"
 
 def log(msg, level=xbmc.LOGERROR):
     xbmc.log(msg="{}: {}".format(addonID, msg), level=level)
 
-
-def check_result(result):
-    if not result == "ok":
-        if result == "not":
-            log("TV Not Found")
-        else:
-            log("Error occurred {}".format(result))
-
+def jsonrpc_cec(command):
+    rpccmd = {'jsonrpc': '2.0', 'method': 'System.CECSend', 'id': 1, 'params': {"command": command}}
+    rpccmd = json.dumps(rpccmd)
+    return xbmc.executeJSONRPC(rpccmd)
 
 def default_function():
-    log("Sending Activate Source and StandyBy to CEC", xbmc.LOGINFO)
-    #xbmc.executebuiltin("CECActivateSource")
-    xbmc.executebuiltin("CECStandby")
-
-
-def on_function():
-    log("Sending Activate Source to CEC", xbmc.LOGINFO)
-    xbmc.executebuiltin("CECActivateSource")
-
-
-def off_function():
-    timeout = int(float(addon.getSetting('timeout')))
-    retries = int(float(addon.getSetting('retries')))
-    device_ip = addon.getSetting('forceIP')
-    tv = Television(device_ip, timeout, retries)
-    if tv.errors <> "":
-        log(tv.errors)
-    else:
-        log("Sending off code to TV", xbmc.LOGINFO)
-        Codes = TelevisionRemoteCode
-        result = tv.send(Codes.TR_KEY_POWER)
-        check_result(result)
-
-
-def app_exit_sequence():
-    timeout = int(float(addon.getSetting('timeout')))
-    retries = int(float(addon.getSetting('retries')))
-    device_ip = addon.getSetting('forceIP')
-    tv = Television(device_ip, timeout, retries)
-    if tv.errors <> "":
-        log(tv.errors)
-    else:
-        log("Sending app exit code to TV", xbmc.LOGINFO)
-        Codes = TelevisionRemoteCode
-        result = tv.send(Codes.TR_KEY_EXIT)
-        check_result(result)
-        xbmc.sleep(500)
-        result = tv.send(Codes.TR_KEY_DOWN)
-        check_result(result)
-        xbmc.sleep(500)
-        result = tv.send(Codes.TR_KEY_OK)
-        check_result(result)
+    jsonrpc_cec(CecCommands.TV_ON)
+    jsonrpc_cec(CecCommands.TV_OFF)
 
 to_parse = ""
 
@@ -74,13 +36,16 @@ mode = args.get('mode', 'other')
 
 if mode[0] == 'on':
     log("Turning on", xbmc.LOGINFO)
-    on_function()
+    jsonrpc_cec(CecCommands.TV_ON)
 elif mode[0] == 'off':
     log("Turning off", xbmc.LOGINFO)
-    off_function()
-elif mode[0] == 'app_exit':
-    log("Exiting Smart App like Netflix", xbmc.LOGINFO)
-    app_exit_sequence()
+    jsonrpc_cec(CecCommands.TV_OFF)
+elif mode[0] == 'avr_on':
+    log("Turning on avr", xbmc.LOGINFO)
+    jsonrpc_cec(CecCommands.AVR_ON)
+elif mode[0] == 'avr_off':
+    log("Turning off avr", xbmc.LOGINFO)
+    jsonrpc_cec(CecCommands.AVR_OFF)
 else:
     log("No action defined, doing default action", xbmc.LOGINFO)
     default_function()

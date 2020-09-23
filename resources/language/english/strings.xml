@@ -1,10 +1,3 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <strings>
-    <string id="30100">CEC Off Settings</string>
-    <string id="30101">Used for turning off only, turning on can only be done via CEC command</string>
-    <string id="30102">NOTE: These settings is only valid when the script is called with parameters</string>
-    <string id="30103">to specifically turn off using TV's remote control API</string>
-    <string id="30104">Device IP</string>
-    <string id="30105">Timeout (seconds)</string>
-    <string id="30106">Retries (times)</string>
 </strings>

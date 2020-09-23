@@ -8,8 +8,8 @@
     </requires>
     <extension point="xbmc.python.script" library="default.py"/>
     <extension point="xbmc.addon.metadata">
-        <summary lang="en">CEC TV Power ON and OFF</summary>
-        <description lang="en">Switches TV on and off using HDMI-CEC builtin function of Kodi</description>
+        <summary lang="en">CEC TV and AVR power ON and ON</summary>
+        <description lang="en">Switches TV and AVR ON and ON using HDMI-CEC within Kodi, needs custom fork of Kodi, check readme of the project.</description>
         <platform>linux</platform>
         <language/>
         <license>GNU GENERAL PUBLIC LICENSE</license>
