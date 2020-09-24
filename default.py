@@ -3,12 +3,11 @@ import urlparse
 import sys
 import xbmc
 import json
-from enum import Enum
 
 addonID = 'script.cectvcontrol'
 addon = xbmcaddon.Addon(id=addonID)
 
-class CecCommands(Enum):
+class CecCommands():
     AVR_ON = "1f:82:11:00"
     AVR_OFF = "15:36"
     TV_ON ="10:04"
