@@ -1,5 +1,5 @@
 import xbmcaddon
-import urlparse
+from urllib.parse import parse_qs
 import sys
 import xbmc
 import json
@@ -24,27 +24,32 @@ def jsonrpc_cec(command):
 def default_function():
     jsonrpc_cec(CecCommands.TV_ON)
     jsonrpc_cec(CecCommands.TV_OFF)
+    xbmc.executebuiltin('CECToggleState')
 
 to_parse = ""
 
 if len(sys.argv) >= 2:
     to_parse = sys.argv[1]
 
-args = urlparse.parse_qs(to_parse)
+args = parse_qs(to_parse)
 mode = args.get('mode', 'other')
 
 if mode[0] == 'on':
     log("Turning on", xbmc.LOGINFO)
     jsonrpc_cec(CecCommands.TV_ON)
+    xbmc.executebuiltin('CECActivateSource')
 elif mode[0] == 'off':
     log("Turning off", xbmc.LOGINFO)
     jsonrpc_cec(CecCommands.TV_OFF)
+    xbmc.executebuiltin('CECStandby')
 elif mode[0] == 'avr_on':
     log("Turning on avr", xbmc.LOGINFO)
     jsonrpc_cec(CecCommands.AVR_ON)
+    xbmc.executebuiltin('CECActivateSource')
 elif mode[0] == 'avr_off':
     log("Turning off avr", xbmc.LOGINFO)
     jsonrpc_cec(CecCommands.AVR_OFF)
+    xbmc.executebuiltin('CECStandby')
 else:
     log("No action defined, doing default action", xbmc.LOGINFO)
     default_function()
